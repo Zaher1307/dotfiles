@@ -1,0 +1,21 @@
+# General
+alias ls="exa --icons --git --group-directories-first --color=auto"
+alias l="ls"
+alias ll="l -lg"
+alias la="l -a"
+alias lla="ll -a"
+alias vi="nvim "
+alias vim="nvim "
+alias sudo="sudo "
+alias reload="exec zsh"
+alias q="exit" 
+alias cls="clear"
+
+# Packages
+alias i="sudo pacman -S"
+alias d="sudo pacman -Rns"
+alias u="sudo pacman -Syu"
+alias aur="yay"
+
+#Problem Solving
+alias solve="cd $HOME/Desktop/problem-solving; nvim main.cpp"

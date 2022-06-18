@@ -1,0 +1,43 @@
+Print
+    maim | tee $HOME/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png
+
+super + Print
+    maim -s -u | xclip -selection clipboard -t image/png -i
+    
+super + ctrl + r
+    kill -USR1 $(pgrep sxhkd)
+
+alt + {h, l}
+    i3-msg workspace {prev, next}
+
+super + BackSpace 
+    .scripts/mic.sh toggle
+
+super + shift + q
+    .scripts/shutdown.sh
+
+XF86AudioRaiseVolume
+    .scripts/volume.sh up
+
+XF86AudioLowerVolume
+    .scripts/volume.sh down
+
+XF86AudioMute
+    .scripts/volume.sh toggle
+
+shift + BackSpace 
+    .scripts/hidei3bar.sh
+
+super + space
+    .scripts/language.sh
+
+XF86MonBrightnessUp
+    sudo xbacklight -inc 10
+
+XF86MonBrightnessDown
+    sudo xbacklight -dec 10
+
+Scroll_Lock
+    dm-tool lock
+Menu
+    rofi -modi drun, run -show drun -show-icons, -font 'Cascadia mono 15'
