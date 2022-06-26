@@ -213,7 +213,7 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 mode "launcher" {
-	bindsym r exec terminator -e ranger;                                            mode "default"
+	bindsym l exec terminator -e lf;                                            mode "default"
 	bindsym d exec discord;                                                         mode "default"
 	bindsym f exec firefox;                                                         mode "default"
 	bindsym t exec telegram-desktop;                                                mode "default"
