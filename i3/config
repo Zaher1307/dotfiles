@@ -35,6 +35,7 @@ exec picom
 exec nm-applet
 exec blueman-applet
 exec kitty
+exec terminator
 exec_always autotiling 
 exec i3-gnome-pomodoro stop && i3-gnome-pomodoro start && i3-gnome-pomodoro pause
 
@@ -213,11 +214,10 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 mode "launcher" {
-	bindsym l exec terminator -e lf;                                            mode "default"
+	bindsym l exec --no-startup-id terminator && lfrun;                                                      mode "default"
 	bindsym d exec discord;                                                         mode "default"
 	bindsym f exec firefox;                                                         mode "default"
 	bindsym t exec telegram-desktop;                                                mode "default"
-	bindsym c exec clion;                                                           mode "default"
     bindsym w exec firefox -new-instance -P whatsapp --class="whatsapp" https://web.whatsapp.com; mode "default"
     bindsym a exec firefox -new-instance -P anghami --class="anghami" https://play.anghami.com/home; mode "default"
 	bindsym Escape mode "default"
@@ -242,7 +242,6 @@ bindsym $mod+p mode "Pomodoro"
 bar {
 	position top
 	status_command i3blocks
-	#output HDMI-1-1 output primary
 	strip_workspace_numbers yes
 	font pango: Cascadia mono, SymbolsNerdFont, FontAwesome6Free 14 
 	i3bar_command i3bar --transparency

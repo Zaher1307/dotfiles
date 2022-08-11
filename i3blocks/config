@@ -52,14 +52,14 @@ interval=1
 [Date]
 label= 
 command=date '+%Y %b %d'
-interval=60
+interval=1
 
 [separator]
 
 [Time]
 label= 
 command=date '+%I:%M %p'
-interval=60
+interval=1
 color=#BD9191
 
 [separator]

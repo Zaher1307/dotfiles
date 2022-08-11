@@ -26,12 +26,14 @@ set hidden
 set scrolloff=10
 set mouse=a
 set laststatus=2
+set signcolumn=no
 
 au BufReadPost $HOME/.scripts/* set syntax=sh
 
 call plug#begin('$HOME/.vim/plugged')
+
 " color schemes and icons
-Plug 'morhetz/gruvbox'
+Plug 'EdenEast/nightfox.nvim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -50,14 +52,14 @@ Plug 'sheerun/vim-polyglot'
 Plug 'mboughaba/i3config.vim'
 Plug 'fladson/vim-kitty'
 
+" formatter 
+Plug 'vim-autoformat/vim-autoformat'
+
 " undotree
 Plug 'mbbill/undotree'
 
 " Lualine statusline
 Plug 'nvim-lualine/lualine.nvim'
-
-" markdown previewer
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " debugger
 Plug 'puremourning/vimspector'
@@ -67,7 +69,7 @@ Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 
 " code runner
-Plug 'xianzhon/vim-code-runner'
+Plug 'CRAG666/code_runner.nvim'
 
 " sml
 Plug 'jez/vim-better-sml'
@@ -76,107 +78,6 @@ Plug 'jez/vim-better-sml'
 Plug 'kqito/vim-easy-replace'
 
 call plug#end()
-
-" markdown config
-" set to 1, nvim will open the preview window after entering the markdown buffer
-" default: 0
-let g:mkdp_auto_start = 0
-
-" set to 1, the nvim will auto close current preview window when change
-" from markdown buffer to another buffer
-" default: 1
-let g:mkdp_auto_close = 1
-
-" set to 1, the vim will refresh markdown when save the buffer or
-" leave from insert mode, default 0 is auto refresh markdown as you edit or
-" move the cursor
-" default: 0
-let g:mkdp_refresh_slow = 0
-
-" set to 1, the MarkdownPreview command can be use for all files,
-" by default it can be use in markdown file
-" default: 0
-let g:mkdp_command_for_global = 0
-
-" set to 1, preview server available to others in your network
-" by default, the server listens on localhost (127.0.0.1)
-" default: 0
-let g:mkdp_open_to_the_world = 0
-
-" use custom IP to open preview page
-" useful when you work in remote vim and preview on local browser
-" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
-" default emptkd
-let g:mkdp_open_ip = ''
-
-" specify browser to open preview page
-" default: ''
-let g:mkdp_browser = ''
-
-" set to 1, echo preview page url in command line when open preview page
-" default is 0
-let g:mkdp_echo_preview_url = 0
-
-" a custom vim function name to open preview page
-" this function will receive url as param
-" default is empty
-let g:mkdp_browserfunc = ''
-
-" options for markdown render
-" mkit: markdown-it options for render
-" katex: katex options for math
-" uml: markdown-it-plantuml options
-" maid: mermaid options
-" disable_sync_scroll: if disable sync scroll, default 0
-" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
-"   middle: mean the cursor position alway show at the middle of the preview page
-"   top: mean the vim top viewport alway show at the top of the preview page
-"   relative: mean the cursor position alway show at the relative positon of the preview page
-" hide_yaml_meta: if hide yaml metadata, default is 1
-" sequence_diagrams: js-sequence-diagrams options
-" content_editable: if enable content editable for preview page, default: v:false
-" disable_filename: if disable filename header for preview page, default: 0
-let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1,
-    \ 'sequence_diagrams': {},
-    \ 'flowchart_diagrams': {},
-    \ 'content_editable': v:false,
-    \ 'disable_filename': 0
-    \ }
-
-" use a custom markdown style must be absolute path
-" like '/Users/username/markdown.css' or expand('~/markdown.css')
-let g:mkdp_markdown_css = ''
-
-" use a custom highlight style must absolute path
-" like '/Users/username/highlight.css' or expand('~/highlight.css')
-let g:mkdp_highlight_css = ''
-
-" use a custom port to start server or random for empty
-let g:mkdp_port = ''
-
-" preview page title
-" ${name} will be replace with the file name
-let g:mkdp_page_title = '「${name}」'
-
-" recognized filetypes
-" these filetypes will have MarkdownPreview... commands
-let g:mkdp_filetypes = ['markdown']
-
-" code runner options
-let g:code_runner_save_before_execute = 1
-
-" gruvbox config
-let g:gruvbox_termcolors=256
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
-hi Normal guibg=NONE ctermbg=NONE
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -191,15 +92,6 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Code runner customization
-let g:code_runner_save_before_execute = 1
-let g:code_runner_output_window_size = 8
-let g:CodeRunnerCommandMap = {
-            \ 'c' : 'gcc $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt && rm $fileNameWithoutExt',
-            \ 'cpp' : 'g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt && rm $fileNameWithoutExt', 
-            \ 'racket' : 'racket $fileName'
-            \}
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
@@ -217,28 +109,31 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 let mapleader=' '
 nmap <silent> <Tab> :bn<cr>
 nmap <silent> <S-Tab> :bp<cr>
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>fm :Autoformat<cr>
+
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <c-a> ggVG
 nnoremap <leader>p <Plug>MarkdownPreview
 nnoremap <leader>s <Plug>MarkdownPreviewStop
 nnoremap <leader>t <Plug>MarkdownPreviewToggle
-nnoremap q <cmd>q<CR>
-nnoremap <S-q> <cmd>wq<CR>
-inoremap <silent> <esc> <cmd>w<CR><esc>
-nnoremap <silent> <esc> <cmd>w<CR><C-l><esc>
+nnoremap q <cmd>wqa<CR>
+nnoremap <S-q> <cmd>q<CR>
+inoremap <silent> <esc> <cmd>wa<CR><esc>
+nnoremap <silent> <esc> <cmd>wa<CR><C-l><esc>
 nnoremap D "_d
 xnoremap D "_d
-nnoremap <F4> <Plug>CodeRunner<CR>i
 nnoremap dw diw
 nnoremap cw ciw
+inoremap <C-BS> <C-w>
+
 
 " lualine config 
 lua << END
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'gruvbox',
+    theme = 'modus-vivendi',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {},
@@ -309,3 +204,72 @@ augroup vimbettersml
   let g:sml_smlnj_executable = '/usr/lib/smlnj/bin/sml'
 
 augroup END
+
+" Code runner configuration
+lua << END
+require('code_runner').setup {
+    mode = 'term',
+    focus = true,
+    term = {
+        size = 11
+    },
+    filetype = {
+        go = 'go run $fileName',
+        javascript = 'node $fileName',
+        rust = 'rustc $fileName && ./$fileNameWithoutExt && rm $fileNameWithoutExt',
+        c = 'gcc $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt && rm $fileNameWithoutExt',
+        cpp = 'g++ $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt && rm $fileNameWithoutExt',
+        python = 'python $fileName',
+    },
+
+    vim.keymap.set('n', '<F4>', ':w<CR>:RunCode<CR>i', { noremap = true, silent = true }),
+    vim.keymap.set('n', '<F16>', ':RunClose<CR>', { noremap = true, silent = true }),
+}
+END
+
+" color theme configuration
+lua << END
+local palettes = {
+    nightfox = {
+        black   = '#282a36',
+        white   = '#f8f8f2',
+        red     = '#ff5555',
+        green   = '#78b060',
+        blue    = '#5377c6',
+        yellow  = '#f1fa8c',
+        magenta = '#bd93f9',
+        cyan    = '#8be9fd',
+        orange  = '#ffb86c',
+        pink    = '#ff79c6',
+        comment = '#7c839c',
+        sel1    = '#44475a',
+        sel2    = '#c082a1'
+    }
+}
+
+local options = {
+    transparent = true,
+    terminal_colors = true,
+    styles = {
+        comments = 'italic',
+        conditionals = 'italic,bold',
+        functions = 'bold',
+        types = 'italic',
+    }
+}
+
+require('nightfox').setup {
+    options = options,
+    palettes = palettes
+}
+
+vim.cmd('colorscheme nightfox')
+END
+
+lua << END
+require('nvim-treesitter.configs').setup {
+  highlight = {
+    enable = true
+  }
+}
+END

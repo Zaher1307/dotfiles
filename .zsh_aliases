@@ -6,10 +6,12 @@ alias la="l -a"
 alias lla="ll -a"
 alias vi="nvim "
 alias vim="nvim "
-alias sudo="sudo "
+alias sudo="doas "
+alias doas="doas "
 alias reload="exec zsh"
 alias q="exit" 
 alias cls="clear"
+alias lf="lfrun"
 
 # Packages
 alias i="sudo pacman -S"
@@ -18,4 +20,4 @@ alias u="sudo pacman -Syu"
 alias aur="yay"
 
 #Problem Solving
-alias solve="cd $HOME/Desktop/problem-solving; nvim main.cpp"
+alias solve="cd $HOME/Desktop/problem-solving;i3-msg move container to workspace number 3;i3-msg workspace number 3;nvim main.cpp;cd;clear;exit"

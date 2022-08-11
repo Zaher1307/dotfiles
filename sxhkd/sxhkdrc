@@ -41,3 +41,7 @@ Scroll_Lock
     dm-tool lock
 Menu
     rofi -modi drun, run -show drun -show-icons, -font 'Cascadia mono 15'
+
+super + s
+    exec setxkbmap -option caps:swapescape
+
