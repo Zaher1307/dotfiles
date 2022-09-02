@@ -38,7 +38,10 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 
 " LSP
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'tag': 'v0.0.81'}
+
+" git integration
+Plug 'lewis6991/gitsigns.nvim'
 
 " Telescope
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -104,13 +107,17 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> ca <Plug>(coc-codeaction)
+nmap <silent> ge <Plug>(coc-diagnostic-next)
+nmap <silent> gE <Plug>(coc-diagnostic-prev)
+nmap <silent> cd :call ShowDocumentation()<CR>
 
 " general binds
 let mapleader=' '
 nmap <silent> <Tab> :bn<cr>
 nmap <silent> <S-Tab> :bp<cr>
 nmap <leader>rn <Plug>(coc-rename)
-nmap <leader>fm :Autoformat<cr>
+nmap <silent> <leader>fm :Autoformat<cr>
 
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <c-a> ggVG
@@ -127,6 +134,14 @@ nnoremap dw diw
 nnoremap cw ciw
 inoremap <C-BS> <C-w>
 
+" ShowDocumentation config
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
 " lualine config 
 lua << END
@@ -273,3 +288,4 @@ require('nvim-treesitter.configs').setup {
   }
 }
 END
+

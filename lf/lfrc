@@ -1,9 +1,9 @@
 set ratios 1:2:3
 # interpreter for shell commands
-set shell sh
+set shell zsh
 # set icons
 
-# set icons 
+# set icons
 set previewer ~/.config/lf/preview
 set cleaner ~/.config/lf/cleaner
 
@@ -28,12 +28,14 @@ set scrolloff 10
 
 # remove some defult maps
 map m
+map D
 
 # set deletion
 map <backspace2> set hidden!
 
 map Dr trash
 map Dd delete
+
 map x extract
 
 map md mkdir
@@ -47,14 +49,14 @@ map <enter> shell
 # Custom Functions
 cmd mkdir ${{
   printf "Directory Name: "
-  read ans
-  mkdir $ans
+    read ans
+    mkdir $ans
 }}
 
 cmd mkfile ${{
   printf "File Name: "
-  read ans
-  $EDITOR $ans
+    read ans
+    $EDITOR $ans
 }}
 
 # define a custom 'open' command
@@ -62,60 +64,60 @@ cmd mkfile ${{
 # use either file extensions and/or mime types here. Below uses an editor for
 # text files and a file opener for the rest.
 cmd open ${{
-    case $(file --mime-type "$(readlink -f $f)" -b) in
-	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
-	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f okular $fx >/dev/null 2>&1 ;;
-        text/*|application/json|inode/x-empty) $EDITOR $fx;;
-	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
-	image/svg+xml) display -- $f ;;
-	image/*) sxiv $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
-		setsid -f sxiv -aio 2>/dev/null | while read -r file; do
-			[ -z "$file" ] && continue
-			lf -remote "send select \"$file\""
-			lf -remote "send toggle"
-		done &
-		;;
-	audio/*) mpv --audio-display=no $f ;;
-	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
-	application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
-	application/pgp-encrypted) $EDITOR $fx ;;
-        *) for f in $fx; do setsid -f neovim $f >/dev/null 2>&1; done;;
-    esac
-}}
+  case $(file --mime-type "$(readlink -f $f)" -b) in
+    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
+    image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f okular $fx >/dev/null 2>&1 ;;
+    text/*|application/json|inode/x-empty) $EDITOR $fx;;
+          image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
+          image/svg+xml) display -- $f ;;
+          image/*) sxiv $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
+          setsid -f sxiv -aio 2>/dev/null | while read -r file; do
+          [ -z "$file" ] && continue
+          lf -remote "send select \"$file\""
+          lf -remote "send toggle"
+          done &
+          ;;
+          audio/*) mpv --audio-display=no $f ;;
+          video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+          application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+          application/pgp-encrypted) $EDITOR $fx ;;
+         *) for f in $fx; do setsid -f neovim $f >/dev/null 2>&1; done;;
+         esac
+         }}
 
 # move current file or selected files to trash folder
 # (also see 'man mv' for backup/overwrite options)
 cmd trash %set -f; mv $fx ~/.trash
-cmd delete %set -f; rm $fx -R
+cmd delete %set -f; rm -rf $fx
 
 # extract the current file with the right command
 # (xkcd link: https://xkcd.com/1168/)
 cmd extract ${{
-    set -f
-    case $f in
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
-        *.tar.gz|*.tgz) tar xzvf $f;;
-        *.tar.xz|*.txz) tar xJvf $f;;
-        *.zip) unzip $f;;
-        *.rar) unrar x $f;;
-        *.7z) 7z x $f;;
-    esac
-}}
+set -f
+case $f in
+         *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+         *.tar.gz|*.tgz) tar xzvf $f;;
+         *.tar.xz|*.txz) tar xJvf $f;;
+         *.zip) unzip $f;;
+         *.rar) unrar x $f;;
+         *.7z) 7z x $f;;
+         esac
+         }}
 
 # compress current file or selected files with tar and gunzip
 cmd tar ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    tar czf $1.tar.gz $1
-    rm -rf $1
+set -f
+mkdir $1
+cp -r $fx $1
+tar czf $1.tar.gz $1
+rm -rf $1
 }}
 
 # compress current file or selected files with zip
 cmd zip ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    zip -r $1.zip $1
-    rm -rf $1
+set -f
+mkdir $1
+cp -r $fx $1
+zip -r $1.zip $1
+rm -rf $1
 }}

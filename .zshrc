@@ -31,7 +31,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.pl
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 #source aliases
-[[ -f .zsh/.zsh_aliases ]] && source ~/.zsh/.zsh_aliases
-[[ -f .zsh/.vi_mode ]] && source ~/.zsh/.vi_mode
-[[ -f .zsh/.zprofile ]] && source ~/.zsh/.zprofile
+[[ -f $HOME/.zsh/.zsh_aliases ]] && source ~/.zsh/.zsh_aliases
+[[ -f $HOME/.zsh/.vi_mode ]] && source ~/.zsh/.vi_mode
+[[ -f $HOME/.zsh/.zprofile ]] && source ~/.zsh/.zprofile
 
