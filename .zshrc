@@ -21,9 +21,10 @@ prompt typewritten
 # End of lines added by compinstall
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export EDITOR="nvim"
+export VISUAL="nvim"
 export PDFVIEWER="okular"
 export GOPATH="$HOME/.go"
-export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin/"
+export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
 
 #source zsh plugins
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
