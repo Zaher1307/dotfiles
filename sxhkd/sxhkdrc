@@ -42,6 +42,20 @@ Scroll_Lock
 Menu
     rofi -modi drun, run -show drun -show-icons, -font 'Cascadia mono 15'
 
-super + s
-    exec setxkbmap -option caps:swapescape
+super + {l, h, k, j} 
+    i3-msg focus {right, left, up, down}
 
+super + shift + {l, h, k, j} 
+    i3-msg move {right, left, up, down}
+
+super + q 
+    i3-msg kill
+
+super + i
+    setxkbmap -option caps:swapescape
+
+super + shift + s
+    i3-msg move scratchpad
+
+super + s
+    i3-msg scratchpad show

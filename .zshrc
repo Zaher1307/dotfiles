@@ -30,6 +30,7 @@ export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.plugin.zsh
 
 #source aliases
 [[ -f $HOME/.zsh/.zsh_aliases ]] && source ~/.zsh/.zsh_aliases

@@ -51,6 +51,16 @@ Plug 'rafamadriz/friendly-snippets'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 
+" sql
+Plug 'nanotee/sqls.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'guysherman/pg.nvim'
+
+" debugger 
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'mxsdev/nvim-dap-vscode-js'
+
 " other
 Plug 'tpope/vim-surround'
 Plug 'windwp/nvim-autopairs'
@@ -58,7 +68,7 @@ Plug 'sbdchd/neoformat'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'tpope/vim-fugitive'
-Plug 'tanvirtin/vgit.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'farmergreg/vim-lastplace'
 
 call plug#end()

@@ -20,6 +20,7 @@ require("nvim-tree").setup({
                 { key = { "<CR>", "<2-LeftMouse>", "l" }, action = "edit" },
                 { key = { "<Tab>" }, action = "preview" },
                 { key = "<BS>", action = "toggle_dotfiles" },
+                { key = "cd", action = "cd"},
                 { key = "a", action = "create" },
                 { key = "y", action = "copy" },
                 { key = "d", action = "cut" },

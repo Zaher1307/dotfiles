@@ -70,6 +70,22 @@ end
 
 require('lspconfig').quick_lint_js.setup{}
 
+require('lspconfig').sqls.setup{
+    on_attach = function(client, bufnr)
+        require('sqls').on_attach(client, bufnr)
+    end,
+    settings = {
+    sqls = {
+      connections = {
+        {
+          driver = 'postgresql',
+          dataSourceName = 'host=127.0.0.1 port=5432 user=postgres password=haomka00 dbname=northwind sslmode=disable',
+        },
+      },
+    },
+  },
+}
+
 require("lspconfig").gopls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
