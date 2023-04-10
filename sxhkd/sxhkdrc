@@ -1,14 +1,14 @@
-Print
+super + Print
     maim | tee $HOME/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png
 
-super + Print
+Print
     maim -s -u | xclip -selection clipboard -t image/png -i
     
 super + ctrl + r
     kill -USR1 $(pgrep sxhkd)
 
-alt + {h, l}
-    i3-msg workspace {prev, next}
+alt + {h, Left, l, Right}
+    i3-msg workspace {prev_on_output, prev_on_output, next_on_output, next_on_output}
 
 super + BackSpace 
     .scripts/mic.sh toggle
@@ -59,3 +59,18 @@ super + shift + s
 
 super + s
     i3-msg scratchpad show
+
+alt + shift + {Left, h}
+    i3-msg move workspace to {output left, output left}; i3-msg focus left
+
+alt + shift + {Right, l}
+    i3-msg move workspace to {output right, output right}; i3-msg focus right
+
+ctrl + 1
+    .screenlayout/setup.sh; feh --bg-fill ~/Pictures/wallpaper.png
+
+super + x
+    xset r rate 300 80
+
+super + shift + f
+    i3-msg fullscreen toggle

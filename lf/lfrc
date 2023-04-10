@@ -1,7 +1,7 @@
 set ratios 1:2:3
 # interpreter for shell commands
-set shell zsh
-# set icons
+set shell sh
+set icons ~/.config/lf/icons
 
 # set icons
 set previewer ~/.config/lf/preview
@@ -21,8 +21,6 @@ set shellopts '-eu'
 # since default file separator used in these variables (i.e. 'filesep' option)
 # is newline. You need to consider the values of these options and create your
 # commands accordingly.
-set ifs "\n"
-
 # leave some space at the top and the bottom of the screen
 set scrolloff 10
 
@@ -46,7 +44,7 @@ map gm cd /mnt
 
 # use enter for shell commands
 map <enter> shell
-map l open
+map i pager
 
 # Custom Functions
 cmd mkdir ${{
@@ -61,31 +59,61 @@ cmd mkfile ${{
     $EDITOR $ans
 }}
 
+cmd playlist ${{
+    if [ -z "$fs" ]; then
+        mpv "$f"
+    else
+        filename="/tmp/$(date +%s).m3u";
+        printf "$fs" > $filename;
+        mpv $filename > /dev/null 2>&1  &!;
+        disown -a;
+    fi
+}}
+
 # define a custom 'open' command
 # This command is called when current file is not a directory. You may want to
 # use either file extensions and/or mime types here. Below uses an editor for
 # text files and a file opener for the rest.
 cmd open ${{
-  case $(file --mime-type "$(readlink -f $f)" -b) in
-    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
-    image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f okular $fx >/dev/null 2>&1 ;;
-    text/*|application/json|inode/x-empty) $EDITOR $fx;;
-          image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
-          image/svg+xml) display -- $f ;;
-          image/*) sxiv $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
-          setsid -f sxiv -aio 2>/dev/null | while read -r file; do
-          [ -z "$file" ] && continue
-          lf -remote "send select \"$file\""
-          lf -remote "send toggle"
-          done &
-          ;;
-          audio/*) mpv --audio-display=no $f ;;
-          video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
-          application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
-          application/pgp-encrypted) $EDITOR $fx ;;
-         *) for f in $fx; do setsid -f neovim $f >/dev/null 2>&1; done;;
-         esac
+    run() {
+        { setsid -f "$@" >/dev/null 2>&1 & } ||
+            ({ nohup "$@" >/dev/null 2>&1 & } &) ||
+            (exec "$@" >/dev/null 2>&1 &)
+    }
+
+    mime_type="$(file -b --mime-type -- "$(readlink -f $f)")"
+    selected="$fs"
+    if [ ! ${selected} ]; then
+        selected="$f"
+    fi
+
+    case "$mime_type" in
+    image/vnd.djvu | application/pdf | application/postscript | \
+        application/pdf | application/epub*)
+        run "${READER:-okular}" $selected
+        ;;
+    text/* | application/json | application/javascript | \
+        application/pgp-encrypted | inode/x-empty | application/octet-stream)
+        "${EDITOR:-nvim}" ${selected}
+        ;;
+    image/svg+xml | image/png | image/jpeg | image/gif)
+        run "${IMAGE_VIEWER:-eog}" $selected
+        ;;
+    audio/*)
+        run "${AUDIO_PLAYER:-"${MPV:-mpv}"}" --force-window --fs=no $selected
+        ;;
+    video/*)
+        run "${VIDEO_PLAYER:-"${MPV:-mpv}"}" $selected
+        ;;
+    *)
+        for f in $selected; do
+            "${OPENER:-mimeopen}" $f
+        done
+        ;;
+    esac
 }}
+set ifs "\n"
+map o open
 
 # move current file or selected files to trash folder
 # (also see 'man mv' for backup/overwrite options)
@@ -122,4 +150,33 @@ mkdir $1
 cp -r $fx $1
 zip -r $1.zip $1
 rm -rf $1
+}}
+
+cmd pager ${{
+    mime_type="$(file -b --mime-type -- "$(readlink -f "$f")")"
+    case "$mime_type" in
+    text/* | application/json | application/javascript | \
+        application/pgp-encrypted | inode/x-empty | application/octet-stream)
+        bat --paging=always -p ${f}
+        ;;
+    application/x-object | application/x-pie-executable)
+        objdump -D ${f} | bat --paging=always -p --language=asm
+        ;;
+    *)
+        case "${f}" in
+            *.iso)
+                iso-info "${f}" | less
+                ;;
+            *.tar)
+                tar tf "${f}" | less
+                ;;
+            *.tar.gz)
+                tar tzf "${f}" | less
+                ;;
+            *.zip)
+                unzip -l "${f}" | less
+                ;;
+        esac
+    esac
+    
 }}

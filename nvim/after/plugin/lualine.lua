@@ -1,7 +1,12 @@
+local function filename()
+  local fname = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+  return fname .. " %m"
+end
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'modus-vivendi',
+    theme = 'catppuccin',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {},
@@ -25,7 +30,12 @@ require('lualine').setup {
     lualine_z = {}
   },
   tabline = {
-    lualine_a = {'buffers'},
+    lualine_a = {
+        {
+            'buffers',
+            show_filename_only = false,
+        }
+    },
     lualine_b = {},
     lualine_c = {},
     lualine_x = {},

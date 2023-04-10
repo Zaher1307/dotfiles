@@ -109,8 +109,7 @@ require("nvim-treesitter.configs").setup({
         lint_events = {"BufWrite", "CursorHold"},
     },
     matchup = {
-        enable = true,              -- mandatory, false will disable the whole extension
-        disable = {},  -- optional, list of language that will be disabled
-        -- [options]
+        enable = true,
+        disable_virtual_text = true,
     },
 })

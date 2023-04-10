@@ -9,13 +9,14 @@ local on_attach = function(client, bufnr)
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
+    vim.keymap.set('n', 'ge', vim.diagnostic.goto_next, bufopts)
+    vim.keymap.set('n', 'gE', vim.diagnostic.goto_prev, bufopts)
+	vim.keymap.set("n", "gh", '<cmd>Telescope lsp_references<CR>', bufopts)
+    vim.keymap.set("n", "gD", '<cmd>TSTextobjectPeekDefinitionCode @function.outer<CR>', bufopts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-	vim.keymap.set("n", "gD", "<cmd>TSTextobjectPeekDefinitionCode @function.outer<CR>", bufopts)
-	vim.keymap.set("n", "cd", "<cmd>Lspsaga hover_doc<CR>", bufopts)
-	vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", bufopts)
-	vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
-
+	vim.keymap.set("n", "cd", vim.lsp.buf.hover, bufopts)
+	vim.keymap.set("n", "<leader>rn",vim.lsp.buf.rename, bufopts)
+	vim.keymap.set({ "n", "v" }, "<leader>ca", '<cmd>Lspsaga code_action<CR>', bufopts)
 	vim.api.nvim_create_autocmd("CursorHold", {
 		buffer = bufnr,
 		callback = function()
@@ -34,7 +35,7 @@ vim.diagnostic.config({
 		source = "always", -- Or "if_many"
 		severity_sort = true,
         scope = "cursor",
-        focusable = true
+        focusable = true,
 	},
 })
 
@@ -49,7 +50,6 @@ end
 local lspconfig = require("lspconfig")
 
 local servers = {
-    "tsserver",
 	"clangd",
 	"vimls",
 	"pyright",
@@ -58,7 +58,24 @@ local servers = {
 	"jsonls",
 	"yamlls",
 	"prosemd_lsp",
+    "kotlin_language_server"
 }
+
+local additional_servers = {
+    "gopls",
+    "sqls",
+    "lua_ls",
+    "rust_analyzer",
+}
+
+local ensure_installed = vim.tbl_flatten(servers)
+for _, server in ipairs(additional_servers) do
+    table.insert(ensure_installed, server)
+end
+
+require("mason-lspconfig").setup({
+    ensure_installed = ensure_installed,
+})
 
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
@@ -68,7 +85,16 @@ for _, lsp in ipairs(servers) do
 	})
 end
 
-require('lspconfig').quick_lint_js.setup{}
+require('lspconfig').tsserver.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = lsp_flags,
+    init_options = {
+        preferences = {
+            disableSuggestions = true,
+        },
+    },
+})
 
 require('lspconfig').sqls.setup{
     on_attach = function(client, bufnr)
@@ -127,7 +153,7 @@ require("rust-tools").setup({
 	},
 })
 
-require("lspconfig").sumneko_lua.setup({
+require("lspconfig").lua_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	flags = lsp_flags,
@@ -144,6 +170,7 @@ require("lspconfig").sumneko_lua.setup({
 			workspace = {
 				-- Make the server aware of Neovim runtime files
 				library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
 			},
 			-- Do not send telemetry data containing a randomized but unique identifier
 			telemetry = {

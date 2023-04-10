@@ -1,3 +1,4 @@
+local api = require("nvim-tree.api")
 local Remap = require("config.keymap")
 local nnoremap = Remap.nnoremap
 local silent = { silent = true }
@@ -11,7 +12,7 @@ require("nvim-tree").setup({
     auto_reload_on_write = true,
     open_on_setup = false,
     view = {
-        adaptive_size = false,
+        adaptive_size = true,
         relativenumber = true,
         number = true,
         mappings = {
@@ -27,6 +28,7 @@ require("nvim-tree").setup({
                 { key = "p", action = "paste" },
                 { key = "r", action = "rename" },
                 { key = "D", action = "remove" },
+                { key = "i", action = "toggle_git_ignored" },
             },
         },
         float = {
@@ -71,7 +73,7 @@ require("nvim-tree").setup({
         },
     },
     filters = {
-        dotfiles = true,
+        dotfiles = false,
         custom = { "^.git$" }
     },
     diagnostics = {
@@ -87,3 +89,13 @@ require("nvim-tree").setup({
 })
 
 nnoremap("<leader><leader>", ":NvimTreeToggle<CR>", silent)
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+  callback = function(data)
+    local directory = vim.fn.isdirectory(data.file) == 1
+    if not directory then
+      return
+    end
+    vim.cmd.cd(data.file)
+    api.tree.open()
+  end,
+})

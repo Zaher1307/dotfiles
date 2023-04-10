@@ -1,29 +1,32 @@
 set $mod Mod4
 
 # i3gaps configuration
-default_border pixel 0
-for_window [class="^.*"] border pixel 0 
+# for_window [class="^.*"] border pixel 1
+default_border pixel 1
+# hide_edge_borders smart
 gaps inner 15
-default_border pixel 2
+# class                  border    backgr.   text      indicator   child_border
+client.focused           #ef9f76   #000000   #ef9f76   #ef9f76     #ef9f76
+client.unfocused         #ef9f7600 #00000000 #00000000 #00000000   #00000000
+# client.focused_tab_title #ef9f7600 #00000000 #00000000 #00000000   #00000000
+client.focused_inactive  #ef9f7600 #00000000 #00000000 #00000000   #00000000
 
 # Font for window titles. Will also be used by the bar unless a different font
-font pango:Cascadia Mono 10 
+font pango: 0
 
 #set the wallpaper and setup screen layout and applets
 exec setxkbmap -option caps:swapescape
-exec nitrogen --restore 
+# exec /home/zaher/.screenlayout/setup.sh
+exec feh --bg-fill ~/Pictures/wallpaper.png
 exec sxhkd
-exec /home/zaher/.screenlayout/setup.sh
-exec picom -b --backend glx
+exec xset r rate 300 80
+exec setxkbmap -option caps:swapescape
+exec picom -b --backend xrender
 exec nm-applet
 exec blueman-applet
 exec kitty
-exec terminator
 exec_always autotiling 
 exec i3-gnome-pomodoro stop && i3-gnome-pomodoro start && i3-gnome-pomodoro pause
-
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-font pango:Cascadia Mono 10
 
 # Start XDG autostart .desktop files using dex. See also
 exec --no-startup-id dex --autostart --environment i3
@@ -52,18 +55,19 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# moving between workspaces
+bindsym $alt+Left perv_on_output
+bindsym $alt+Right next_on_output
+
 # split in horizontal orientation
 bindsym $mod+Shift+g split h
 
 # split in vertical orientation
 bindsym $mod+Shift+v split v
 
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
-
 # change container layout (stacked, tabbed, toggle split)
-# bindsym $mod+s layout stacking
-# bindsym $mod+w layout tabbed
+bindsym $mod+a layout stacking
+bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
@@ -72,7 +76,7 @@ bindsym $mod+Shift+space floating toggle
 # Define names for default workspaces for which we configure key bindings later on.
 set $ws1 "1"
 set $ws2 "2"
-set $ws3 "3"
+set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
@@ -80,6 +84,8 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
 
 # switch to workspace bindsym $mod+1 workspace number $ws1
 bindsym $mod+1 workspace number $ws1
@@ -92,6 +98,8 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
+bindsym $mod+u workspace number $ws11
+bindsym $mod+o workspace number $ws12
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -104,6 +112,8 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $mod+Shift+u move container to workspace number $ws11
+bindsym $mod+Shift+o move container to workspace number $ws12
 
 #assign workspaces
 assign [class="firefox"] $ws2
@@ -114,8 +124,13 @@ assign [class="mpv"] $ws6
 assign [class="okular"] $ws7
 assign [class="whatsapp"] $ws8
 assign [class="anghami"] $ws9
-assign [class="Terminator"] $ws10
+assign [class="lf"] $ws10
 assign [class="Thunar"] $ws10
+assign [class="Postman"] $ws11
+assign [class="beekeeper-studio"] $ws11
+assign [title="Anghami"] $ws9
+assign [title="WhatsApp Web"] $ws8
+assign [class="Brave-browser"] $ws2
 
 
 # reload the configuration file
@@ -146,14 +161,15 @@ mode "resize" {
 }
 mode "launcher" {
 	bindsym h exec thunar;                                                                           mode "default"
-	bindsym l exec terminator -e lfrun;                                                              mode "default"
+	bindsym l exec kitty --class "lf" lfrun;                                                         mode "default"
     bindsym c exec code;                                                                             mode "default"
 	bindsym d exec discord;                                                                          mode "default"
 	bindsym f exec firefox;                                                                          mode "default"
 	bindsym t exec telegram-desktop;                                                                 mode "default"
-    bindsym w exec firefox -new-instance -P whatsapp --class="whatsapp" https://web.whatsapp.com;    mode "default"
-    bindsym a exec firefox -new-instance -P anghami --class="anghami" https://play.anghami.com/home; mode "default"
-	bindsym Escape mode "default"
+    bindsym w exec brave --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm;      mode "default"
+    bindsym a exec brave --profile-directory=Default --app-id=ebfkfconommenjlmanlgmppmahmchmlo;      mode "default"
+    bindsym b exec brave;                                                                            mode "default"
+	bindsym Escape                                                                                   mode "default"
 }
 # POMODORO: Restart, Skip, Toggle (Stop/Resume).
 mode "Pomodoro" {
@@ -180,14 +196,14 @@ bar {
 	i3bar_command i3bar --transparency
     workspace_min_width 40
 	colors {
-            background #00000000
+            background #30344600
             statusline #ffffff
             separator #666666
 
-            focused_workspace  #00000000 #00000000 #ffffff
-            active_workspace   #33333300 #5f676a   #ffffff
-            inactive_workspace #33333300 #00000000 #88888860
-            urgent_workspace   #2f343a00 #00000000 #ff0000
-            binding_mode       #00000000 #1d4ffb50 #ffffff
+            focused_workspace  #30344600 #30344600 #ffffff
+            active_workspace   #30344600 #30344600 #888888
+            inactive_workspace #30344600 #30344600 #888888
+            urgent_workspace   #30344600 #30344600 #ef9f76
+            binding_mode       #303446   #ef9f76   #ffffff
         }
 }

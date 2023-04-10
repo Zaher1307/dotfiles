@@ -1,7 +1,7 @@
 full_text=|
 separator=false
 separator_block_width=5
-color=#A4B9BD
+color=#ffffff
 
 [Title]
 command=xdotool getactivewindow getwindowclassname 2> /dev/null || echo ""
@@ -12,7 +12,7 @@ interval=1
 [pomodoro]
 command=i3-gnome-pomodoro status
 interval=1
-color=#BD9191
+color=#ef9f76
 
 [separator]
 
@@ -61,7 +61,7 @@ interval=1
 label= 
 command=date '+%I:%M %p'
 interval=1
-color=#BD9191
+color=#ef9f76
 
 [separator]
 

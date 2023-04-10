@@ -20,6 +20,7 @@ local has_words_before = function()
 end
 
 cmp.setup({
+    preselect = "none",
 	formatting = {
 		format = function(entry, vim_item)
 			vim_item.kind = lspkind.presets.default[vim_item.kind]
@@ -93,12 +94,9 @@ cmp.setup({
 		end, { "i", "s" }),
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
-		{ name = "gh_issues" },
-		{ name = "nvim_lua" },
+		{ name = "nvim_lsp" },
 		{ name = "cmp_tabnine" },
-		{ name = "treesitter" },
 	}, {
 		{ name = "buffer" },
 		{ name = "path" },
@@ -118,7 +116,7 @@ cmp.setup({
 local tabnine = require("cmp_tabnine.config")
 tabnine:setup({
 	max_lines = 1000,
-	max_num_results = 20,
+	max_num_results = 5,
 	sort = true,
 	run_on_every_keystroke = true,
 	snippet_placeholder = "..",

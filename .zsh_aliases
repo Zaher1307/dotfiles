@@ -4,12 +4,24 @@ alias l="ls"
 alias ll="l -lg"
 alias la="l -a"
 alias lla="ll -a"
-alias vim="nvim "
+alias vd="neovide; exit"
 alias sudo="sudo "
 alias reload="exec zsh"
 alias q="exit" 
 alias cls="clear"
 alias lf="lfrun"
+alias lz="lazygit"
+alias rm="rm -rf"
+
+# Vim
+alias vim="nvim "
+alias vv="cd $HOME/.config/nvim; nvim ."
+
+# Git
+alias addall="git add ."
+alias push="git push -u origin master"
+alias commit="git commit -m"
+alias lg="lazygit"
 
 # Packages
 alias i="sudo pacman -S"
@@ -18,6 +30,3 @@ alias u="sudo pacman -Syyu"
 alias yi="yay -S"
 alias yd="yay -Rns"
 alias yu="yay -Syu"
-
-#Problem Solving
-alias solve="cd $HOME/Desktop/problem-solving;i3-msg move container to workspace number 3;i3-msg workspace number 3;nvim main.cpp;cd;clear;exit"

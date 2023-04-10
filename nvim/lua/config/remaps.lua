@@ -7,27 +7,45 @@ local inoremap = Remap.inoremap
 local nmap = Remap.nmap
 
 local silent = {silent = true}
+-- Replace with register
+vim.keymap.set("n", "gr", "<Plug>ReplaceWithRegisterOperator")
+vim.keymap.set("x", "gr", "<Plug>ReplaceWithRegisterVisual")
+vim.keymap.set("n", "grr", "<Plug>ReplaceWithRegisterLine==")
+vim.keymap.set("n", "gR", "<Plug>ReplaceWithRegisterOperator$")
 
 nnoremap('<Tab>', ':bn<cr>', silent)
 nnoremap('<S-Tab>', ':bp<cr>', silent)
 nnoremap('<c-a>', 'ggVG')
-nnoremap('q', '<cmd>wqa<CR>')
-nnoremap('Q', '<cmd>q<CR>')
-nnoremap('<S-q>', '<cmd>q<CR>')
-nnoremap('<leader>w', '<cmd>wa<CR>', silent)
-nnoremap('D', '"_d')
+nnoremap('<leader>q', '<cmd>wqa<CR>')
+nnoremap('<leader>Q', '<cmd>q!<CR>')
+nnoremap('<leader>d', '"_d')
+nnoremap('<leader>c', '"_c')
+nnoremap('<leader>x', '"_x')
 nnoremap('dw', 'diw')
 nnoremap('cw', 'ciw')
-nnoremap('dA', 'gg"_dG<cmd>w<CR><C-l><esc>', silent)
-nnoremap('cA', 'gg"_cG<cmd>w<CR>', silent)
+nnoremap('dA', 'gg"_dG', silent)
+nnoremap('cA', 'gg"_cG', silent)
 nnoremap('<leader>u', 'gUiw')
-nnoremap('<leader>d', '<cmd>bd<CR>')
-nnoremap('<leader>fm', '<cmd>Neoformat<CR>', silent)
+nnoremap('<leader>bd', '<cmd>bd<CR>')
+nnoremap('<leader>fm', function()
+    vim.lsp.buf.format({
+        timeout_ms = 10000,
+    })
+end, silent)
+nnoremap('<leader>w', '<cmd>wa<CR><C-l><esc>', silent)
+nnoremap('<leader>p', function ()
+    local peek = require('peek')
+    if peek.is_open() then
+        peek.close()
+    else
+        peek.open()
+    end
+end)
 
-inoremap('<esc>', '<cmd>wa<CR><esc>', silent)
 inoremap('<C-BS>', '<C-w>')
 
-xnoremap('D', '"_d')
+xnoremap('<leader>d', '"_d')
+xnoremap('<leader>c', '"_c')
+xnoremap("J", ":m '>+1<CR>gv=gv", silent)
+xnoremap("K", ":m '<-2<CR>gv=gv", silent)
 
-vim.api.nvim_set_keymap('n', 'ge', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gE', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
