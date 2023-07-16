@@ -11,46 +11,57 @@ dap.adapters.delve = {
 
 dap.configurations.go = {
     {
+        name = "Project",
         type = "delve",
-        name = "debug project",
         request = "launch",
         mode = "debug",
         program = "${fileDirname}",
     },
     {
+        name = "Project (with args)",
         type = "delve",
-        name = "debug project argv",
         request = "launch",
         program = "${fileDirname}",
-        args = function ()
+        args = function()
             local input = vim.fn.input("argv: ")
-            vim.split(input or "", " ")
+            return vim.split(input or "", " ")
         end,
     },
     {
+        name = "Attach Process",
         type = "delve",
-        name = "debug executable",
+        request = "attach",
+        mode = "local",
+        processId = require("dap.utils").pick_process,
+    },
+    {
+        name = "Executable",
+        type = "delve",
         request = "launch",
         mode = "exec",
-        program = function ()
-            return vim.fn.getcwd() .. '/' .. vim.fn.input("executable path: ")
+        program = function()
+            return vim.fn.getcwd() .. "/" .. vim.fn.input("executable path: ")
         end,
     },
     {
+        name = "Tests",
         type = "delve",
-        name = "debug test",
         request = "launch",
         mode = "test",
         program = "${fileDirname}",
     },
     {
+        name = "Specific Test",
         type = "delve",
-        name = "debug specific test",
         request = "launch",
         mode = "test",
         program = "${fileDirname}",
-        args = {"--", "-test.run", function ()
-            vim.fn.input("test name: ")
-        end},
+        args = {
+            "--",
+            "-test.run",
+            function()
+                vim.fn.input("test name: ")
+            end,
+        },
     },
 }

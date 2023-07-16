@@ -1,36 +1,41 @@
 local api = require("nvim-tree.api")
-local Remap = require("config.keymap")
-local nnoremap = Remap.nnoremap
 local silent = { silent = true }
 
 -- disable netrw at the very start of your init.lua (strongly advised)
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
 
+local api = require("nvim-tree.api")
+local function on_attach(bufnr)
+    local function opts(desc)
+        return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
+    vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open"))
+    vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
+    vim.keymap.set("n", "<Tab>", api.node.open.preview, opts("Open Preview"))
+    vim.keymap.set("n", "cd", api.tree.change_root_to_node, opts("CD"))
+    vim.keymap.set("n", "a", api.fs.create, opts("Create"))
+    vim.keymap.set("n", "y", api.fs.copy.filename, opts("Copy Name"))
+    vim.keymap.set("n", "d", api.fs.cut, opts("Cut"))
+    vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
+    vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
+    vim.keymap.set("n", "D", api.fs.remove, opts("Delete"))
+    vim.keymap.set("n", "E", api.tree.expand_all, opts("Expand All"))
+    vim.keymap.set("n", "W", api.tree.collapse_all, opts("Collapse"))
+    vim.keymap.set("n", "i", api.tree.toggle_hidden_filter, opts("Toggle Dotfiles"))
+    vim.keymap.set("n", "I", api.tree.toggle_gitignore_filter, opts("Toggle Git Ignore"))
+end
+
 require("nvim-tree").setup({
+    on_attach = on_attach,
     sort_by = "case_sensitive",
     auto_reload_on_write = true,
-    open_on_setup = false,
+    remove_keymaps = true,
     view = {
         adaptive_size = true,
         relativenumber = true,
         number = true,
-        mappings = {
-            custom_only = true,
-            list = {
-                { key = { "<CR>", "<2-LeftMouse>", "l" }, action = "edit" },
-                { key = { "<Tab>" }, action = "preview" },
-                { key = "<BS>", action = "toggle_dotfiles" },
-                { key = "cd", action = "cd"},
-                { key = "a", action = "create" },
-                { key = "y", action = "copy" },
-                { key = "d", action = "cut" },
-                { key = "p", action = "paste" },
-                { key = "r", action = "rename" },
-                { key = "D", action = "remove" },
-                { key = "i", action = "toggle_git_ignored" },
-            },
-        },
         float = {
             enable = false,
             open_win_config = {
@@ -40,12 +45,13 @@ require("nvim-tree").setup({
                 height = 24,
                 row = 8,
                 col = 60,
-            }
-        }
+            },
+        },
     },
     renderer = {
         group_empty = true,
-        highlight_opened_files = "all",
+        root_folder_modifier = ":~",
+        highlight_opened_files = "name",
         indent_markers = {
             enable = true,
             inline_arrows = true,
@@ -58,11 +64,33 @@ require("nvim-tree").setup({
             },
         },
         icons = {
+            webdev_colors = true,
             git_placement = "after",
+            padding = " ",
+            symlink_arrow = " ➛ ",
+            show = {
+                file = true,
+                folder = true,
+                folder_arrow = true,
+                git = true,
+            },
             glyphs = {
+                default = "",
+                symlink = "",
+                bookmark = "",
+                folder = {
+                    arrow_closed = "",
+                    arrow_open = "",
+                    default = "",
+                    open = "",
+                    empty = "",
+                    empty_open = "",
+                    symlink = "",
+                    symlink_open = "",
+                },
                 git = {
                     unstaged = "M",
-                    staged = "A",
+                    staged = "M",
                     unmerged = "",
                     renamed = "➜",
                     untracked = "U",
@@ -73,29 +101,35 @@ require("nvim-tree").setup({
         },
     },
     filters = {
-        dotfiles = false,
-        custom = { "^.git$" }
+        dotfiles = true,
+        custom = { "^.git$" },
     },
     diagnostics = {
         enable = true,
         icons = { hint = "", info = "", warning = "", error = "" },
-        show_on_dirs = true
+        show_on_dirs = true,
     },
     actions = {
         open_file = {
-            quit_on_open = true
-        }
-    }
+            quit_on_open = true,
+        },
+    },
+    git = {
+        enable = true,
+        ignore = true,
+        show_on_dirs = true,
+        timeout = 400,
+    },
 })
 
-nnoremap("<leader><leader>", ":NvimTreeToggle<CR>", silent)
+vim.keymap.set("n", "<leader><leader>", ":NvimTreeToggle<CR>", silent)
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  callback = function(data)
-    local directory = vim.fn.isdirectory(data.file) == 1
-    if not directory then
-      return
-    end
-    vim.cmd.cd(data.file)
-    api.tree.open()
-  end,
+    callback = function(data)
+        local directory = vim.fn.isdirectory(data.file) == 1
+        if not directory then
+            return
+        end
+        vim.cmd.cd(data.file)
+        api.tree.open()
+    end,
 })

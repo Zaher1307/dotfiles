@@ -1,5 +1,3 @@
-local Remap = require("config.keymap")
-local nnoremap = Remap.nnoremap
 local previewers = require("telescope.previewers")
 local Job = require("plenary.job")
 
@@ -29,35 +27,35 @@ require("telescope").setup {
 }
 
 
-nnoremap("<leader>ff", function()
+vim.keymap.set("n", "<leader>ff", function()
     require('telescope.builtin').find_files({layout_strategy='vertical',layout_config={width=0.8}})
 end)
 
-nnoremap("<leader>fg", function()
+vim.keymap.set("n", "<leader>fg", function()
     require('telescope.builtin').git_files()
 end)
 
-nnoremap("<leader>fb", function()
+vim.keymap.set("n", "<leader>fb", function()
     require('telescope.builtin').buffers({layout_strategy='vertical',layout_config={width=0.8}})
 end)
 
-nnoremap("<leader>fh", function()
+vim.keymap.set("n", "<leader>fh", function()
     require('telescope.builtin').help_tags()
 end)
 
-nnoremap("<leader>ft", function()
+vim.keymap.set("n", "<leader>ft", function()
     require('telescope.builtin').tags({layout_strategy='vertical',layout_config={width=0.8}})
 end)
 
-nnoremap("<leader>fs", function()
+vim.keymap.set("n", "<leader>fs", function()
     require('telescope.builtin').treesitter()
 end)
 
-nnoremap("<leader>fz", function()
+vim.keymap.set("n", "<leader>fz", function()
     require('telescope.builtin').current_buffer_fuzzy_find()
 end)
 
-nnoremap("<leader>tk", function()
+vim.keymap.set("n", "<leader>tk", function()
     require('telescope.builtin').keymaps()
 end)
 
