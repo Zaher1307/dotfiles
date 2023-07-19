@@ -65,4 +65,49 @@ require('lazy').setup({
     'vim-scripts/ReplaceWithRegister',
     'segeljakt/vim-silicon',
     {'neoclide/coc.nvim', branch = 'release'},
+    {
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    },
+    {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    },
+    {
+        'ethanholz/nvim-lastplace',
+        config = function()
+            require('nvim-lastplace').setup {
+                lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
+                lastplace_ignore_filetype = {"gitcommit", "gitrebase", "svn", "hgcommit"},
+                lastplace_open_folds = true
+            }
+        end
+    },
+    {
+        'chipsenkbeil/distant.nvim',
+        branch = 'v0.2',
+        config = function()
+            require('distant').setup {
+                -- Applies Chip's personal settings to every machine you connect to
+                --
+                -- 1. Ensures that distant servers terminate with no connections
+                -- 2. Provides navigation bindings for remote directories
+                -- 3. Provides keybinding to jump into a remote file's parent directory
+                ['*'] = require('distant.settings').chip_default()
+            }
+        end
+    },
+    'github/copilot.vim',
+    {
+        'nosduco/remote-sshfs.nvim',
+    }
+
 }, opts)
