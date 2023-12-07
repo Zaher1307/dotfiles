@@ -10,7 +10,7 @@ alias reload="exec zsh"
 alias q="exit" 
 alias cls="clear"
 alias lf="lfrun"
-alias lz="lazygit"
+alias lg="lazygit"
 alias rm="rm -rf"
 
 # Vim

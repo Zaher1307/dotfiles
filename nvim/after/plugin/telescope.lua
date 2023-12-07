@@ -59,4 +59,8 @@ vim.keymap.set("n", "<leader>tk", function()
     require('telescope.builtin').keymaps()
 end)
 
+vim.keymap.set("n", "<leader>lg", function()
+    require('telescope.builtin').live_grep()
+end, { desc = "Live Grep" })
+
 vim.api.nvim_set_keymap('n', '<leader>se', '<cmd>Telescope diagnostics<CR>', { noremap = true, silent = true })

@@ -14,6 +14,11 @@ bindkey -v
 autoload -Uz compinit 
 compinit
 
+# typewritten config
+export TYPEWRITTEN_SYMBOL="➜"
+export TYPEWRITTEN_PROMPT_LAYOUT="singleline_verbose"
+export TYPEWRITTEN_COLORS="arrow:yellow"
+export TYPEWRITTEN_COLOR_MAPPINGS="primary:blue"
 fpath+=$HOME/.zsh/typewritten
 autoload -U promptinit; promptinit
 prompt typewritten
@@ -24,7 +29,7 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export PDFVIEWER="okular"
 export GOPATH="$HOME/.go"
-export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
+export PATH="$HOME/.local/bin:$HOME/bin:$GOPATH/bin:$PATH"
 
 #source zsh plugins
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
@@ -37,3 +42,7 @@ source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.plugin.zsh
 [[ -f $HOME/.zsh/.vi_mode ]] && source ~/.zsh/.vi_mode
 [[ -f $HOME/.zsh/.zprofile ]] && source ~/.zsh/.zprofile
 
+function cfg() {
+  file=$(find $HOME/.dotfiles -name "*" -type f | fzf -i)
+  [[ -n "$file" ]] && nvim "$file"
+}

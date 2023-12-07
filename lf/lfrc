@@ -1,11 +1,14 @@
 set ratios 1:2:3
 # interpreter for shell commands
 set shell sh
-set icons ~/.config/lf/icons
 
 # set icons
-set previewer ~/.config/lf/preview
-set cleaner ~/.config/lf/cleaner
+set icons true
+
+# set previewer ~/.config/lf/preview
+# set cleaner ~/.config/lf/cleaner
+set previewer ctpv
+set cleaner ctpvclear
 
 # set '-eu' options for shell commands
 # These options are used to have safer shell commands. Option '-e' is used to
@@ -30,6 +33,8 @@ map D
 
 # set deletion
 map <backspace2> set hidden!
+
+map c clear
 
 map Dr trash
 map Dd delete
@@ -97,7 +102,7 @@ cmd open ${{
         "${EDITOR:-nvim}" ${selected}
         ;;
     image/svg+xml | image/png | image/jpeg | image/gif)
-        run "${IMAGE_VIEWER:-eog}" $selected
+        run "${IMAGE_VIEWER:-sxiv}" $selected
         ;;
     audio/*)
         run "${AUDIO_PLAYER:-"${MPV:-mpv}"}" --force-window --fs=no $selected

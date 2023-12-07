@@ -22,3 +22,19 @@ vim.opt.scrolloff = 7
 vim.opt.mouse = "a"
 vim.opt.laststatus = 2
 vim.opt.signcolumn = "yes"
+vim.opt.foldmethod = "indent"
+vim.opt.foldnestmax = 1
+vim.opt.fillchars = "fold: "
+function custom_fold_text()
+  local indent = vim.fn.indent(vim.v.foldstart - 1)
+  local fold_size = 1 + vim.v.foldend - vim.v.foldstart
+  local fold_size_str = " " .. fold_size .. " lines "
+  local fold_level_str = string.rep("    +--", vim.v.foldlevel)
+  local expansion_string = string.rep(" ", indent)
+  return expansion_string .. fold_level_str .. fold_size_str
+end
+
+-- Set the fold text to the custom function
+vim.api.nvim_exec([[
+  set foldtext=luaeval('custom_fold_text()')
+]], false)
