@@ -105,7 +105,7 @@ require('lazy').setup({
             }
         end
     },
-    'github/copilot.vim',
+    -- 'github/copilot.vim',
     {
         'nosduco/remote-sshfs.nvim',
     }

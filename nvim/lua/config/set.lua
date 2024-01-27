@@ -25,6 +25,8 @@ vim.opt.signcolumn = "yes"
 vim.opt.foldmethod = "indent"
 vim.opt.foldnestmax = 1
 vim.opt.fillchars = "fold: "
+
+vim.opt.foldtext = "v:lua.custom_fold_text()"
 function custom_fold_text()
   local indent = vim.fn.indent(vim.v.foldstart - 1)
   local fold_size = 1 + vim.v.foldend - vim.v.foldstart
@@ -34,7 +36,4 @@ function custom_fold_text()
   return expansion_string .. fold_level_str .. fold_size_str
 end
 
--- Set the fold text to the custom function
-vim.api.nvim_exec([[
-  set foldtext=luaeval('custom_fold_text()')
-]], false)
+vim.cmd('highlight Folded guibg=#191824 guifg=#88b4fb')
