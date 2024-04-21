@@ -24,7 +24,7 @@ interval=1
 [separator]
 
 [RAM]
-label=:
+label=:
 command=printf "%.2f%s\n" "$(free -m | grep Mem | awk '{print $3/1024}')" "GB"
 interval=1
 
