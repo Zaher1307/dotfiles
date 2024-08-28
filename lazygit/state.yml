@@ -1,15 +1,22 @@
 lastupdatecheck: 0
 recentrepos:
-- /home/zaher/.dotfiles
-- /home/zaher/Desktop/go-workspace/todo
-- /home/zaher/Desktop/go-workspace/kubevirt
+    - /home/zaher/.dotfiles
+    - /home/zaher/Desktop/work/goplace/github.com/goplaceapp/goplace-settings
+    - /home/zaher/Desktop/work/goplace/github.com/goplaceapp/shared-protobufs
+    - /home/zaher/Desktop/work/goplace/github.com/goplaceapp/goplace-guest
+    - /home/zaher/Desktop/work/goplace/github.com/goplaceapp/goplace-gateway
+    - /home/zaher/Desktop/work/eseed/rebatus-backend
+    - /home/zaher/Desktop/nest-js/codersquare
+    - /home/zaher/Desktop/nest-js/task
+    - /home/zaher/Desktop/go-workspace/todo
 startuppopupversion: 5
-lastversion: 0.41.0
-customcommandshistory: []
+lastversion: 0.42.0
+customcommandshistory:
+    - q
 hidecommandlog: false
 ignorewhitespaceindiffview: false
-diffcontextsize: 3
+diffcontextsize: 1
 localbranchsortorder: recency
 remotebranchsortorder: alphabetical
 gitlogorder: topo-order
-gitlogshowgraph: always
+gitlogshowgraph: never

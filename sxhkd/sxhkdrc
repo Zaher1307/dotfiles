@@ -16,6 +16,9 @@ super + BackSpace
 super + shift + q
     .scripts/shutdown.sh
 
+super + shift + t
+    Desktop/work/token.sh
+
 XF86AudioRaiseVolume
     .scripts/volume.sh up
 

@@ -7,12 +7,12 @@ color=#ffffff
 command=xdotool getactivewindow getwindowclassname 2> /dev/null || echo ""
 interval=1
 
-[separator]
-
-[pomodoro]
-command=i3-gnome-pomodoro status
-interval=1
-color=#ef9f76
+# [separator]
+# 
+# [pomodoro]
+# command=i3-gnome-pomodoro status
+# interval=1
+# color=#ef9f76
 
 [separator]
 
@@ -42,11 +42,11 @@ command=$HOME/.scripts/i3volume
 interval=once
 signal=10
 
-# [separator]
+[separator]
 
-# [battery]
-# command=$HOME/.scripts/battery.sh
-# interval=1
+[battery]
+command=$HOME/.scripts/battery.sh
+interval=30
 
 [separator]
 

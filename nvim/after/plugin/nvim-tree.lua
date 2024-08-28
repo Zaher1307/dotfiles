@@ -31,7 +31,7 @@ require("nvim-tree").setup({
     on_attach = on_attach,
     sort_by = "case_sensitive",
     auto_reload_on_write = true,
-    remove_keymaps = true,
+    -- remove_keymaps = true,
     view = {
         adaptive_size = true,
         relativenumber = true,

@@ -27,6 +27,7 @@ exec blueman-applet
 exec kitty
 exec_always autotiling 
 exec i3-gnome-pomodoro stop && i3-gnome-pomodoro start && i3-gnome-pomodoro pause
+exec zsh -c 'source $HOME/.zshrc && xkbi3 -i3blocks SIGRTMIN+12 -mode workspace'
 
 # Start XDG autostart .desktop files using dex. See also
 exec --no-startup-id dex --autostart --environment i3

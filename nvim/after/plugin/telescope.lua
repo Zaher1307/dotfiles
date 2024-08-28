@@ -23,29 +23,29 @@ end
 
 require("telescope").setup {
     defaults = {
-        buffer_previewer_maker = new_maker,
+        -- buffer_previewer_maker = new_maker,
     },
     extensions = {
         live_grep_args = {
             auto_quoting = true, -- enable/disable auto-quoting
             -- define mappings, e.g.
-            mappings = { -- extend mappings
-            i = {
-                ["<C-k>"] = lga_actions.quote_prompt(),
-                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+            mappings = {         -- extend mappings
+                i = {
+                    ["<C-k>"] = lga_actions.quote_prompt(),
+                    ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+                },
             },
-        },
-        -- ... also accepts theme settings, for example:
-        -- theme = "dropdown", -- use dropdown theme
-        -- theme = { }, -- use own theme spec
-        -- layout_config = { mirror=true }, -- mirror preview pane
+            -- ... also accepts theme settings, for example:
+            -- theme = "dropdown", -- use dropdown theme
+            -- theme = { }, -- use own theme spec
+            -- layout_config = { mirror=true }, -- mirror preview pane
+        }
     }
-}
 }
 
 
 vim.keymap.set("n", "<leader>ff", function()
-    require('telescope.builtin').find_files({layout_strategy='vertical',layout_config={width=0.8}})
+    require('telescope.builtin').find_files({ layout_strategy = 'vertical', layout_config = { width = 0.8 } })
 end)
 
 vim.keymap.set("n", "<leader>fg", function()
@@ -53,7 +53,7 @@ vim.keymap.set("n", "<leader>fg", function()
 end)
 
 vim.keymap.set("n", "<leader>fb", function()
-    require('telescope.builtin').buffers({layout_strategy='vertical',layout_config={width=0.8}})
+    require('telescope.builtin').buffers({ layout_strategy = 'vertical', layout_config = { width = 0.8 } })
 end)
 
 vim.keymap.set("n", "<leader>fh", function()
@@ -61,7 +61,7 @@ vim.keymap.set("n", "<leader>fh", function()
 end)
 
 vim.keymap.set("n", "<leader>ft", function()
-    require('telescope.builtin').tags({layout_strategy='vertical',layout_config={width=0.8}})
+    require('telescope.builtin').tags({ layout_strategy = 'vertical', layout_config = { width = 0.8 } })
 end)
 
 vim.keymap.set("n", "<leader>fs", function()
