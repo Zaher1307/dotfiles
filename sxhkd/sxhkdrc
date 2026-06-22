@@ -1,0 +1,100 @@
+# Screenshots
+super + Print
+    maim | tee $HOME/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png
+
+Print
+    maim -s -u | xclip -selection clipboard -t image/png -i
+
+super + ctrl + r
+    kill -USR1 $(pgrep sxhkd)
+
+# Workspace navigation
+alt + {h, Left, l, Right}
+    i3-msg workspace {prev_on_output, prev_on_output, next_on_output, next_on_output}
+
+# Microphone
+super + {Prior, Next, BackSpace}
+    .scripts/mic.sh {up, down, toggle}
+
+# Volume
+XF86AudioRaiseVolume
+    .scripts/volume.sh up
+
+XF86AudioLowerVolume
+    .scripts/volume.sh down
+
+XF86AudioMute
+    .scripts/volume.sh toggle
+
+# Brightness
+XF86MonBrightnessUp
+    sudo xbacklight -inc 10
+
+XF86MonBrightnessDown
+    sudo xbacklight -dec 10
+
+# Launch apps
+super + b
+    brave
+
+super + t
+    Telegram
+
+super + f
+    /usr/local/bin/st -c lf -e /home/zaher/.local/bin/lfrun
+
+super + d
+    ~/.scripts/dmenu_launch.sh
+
+# Window focus
+super + {h, j, k, l}
+    i3-msg focus {left, down, up, right}
+
+# Window move
+super + shift + {h, j, k, l}
+    i3-msg move {left, down, up, right}
+
+super + q
+    i3-msg kill
+
+super + i
+    setxkbmap -option caps:swapescape
+
+# Scratchpad
+super + shift + s
+    i3-msg move scratchpad
+
+super + s
+    i3-msg scratchpad show
+
+# Move workspace between monitors
+alt + shift + {Left, h}
+    i3-msg move workspace to {output left, output left}; i3-msg focus left
+
+alt + shift + {Right, l}
+    i3-msg move workspace to {output right, output right}; i3-msg focus right
+
+# Misc
+super + space
+    .scripts/language.sh
+
+super + shift + q
+    .scripts/shutdown.sh
+
+super + shift + t
+    Desktop/work/token.sh
+
+shift + BackSpace
+    .scripts/hidei3bar.sh
+
+Scroll_Lock
+    dm-tool lock
+
+ctrl + 1
+    .screenlayout/setup.sh; feh --bg-fill ~/Pictures/wallpaper.png
+
+super + x
+    xset r rate 300 80
+
+super + shift + f
+    i3-msg fullscreen toggle

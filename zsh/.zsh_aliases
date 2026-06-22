@@ -1,0 +1,34 @@
+# General
+alias ls="exa --icons --git --group-directories-first --color=auto"
+alias l="ls"
+alias ll="l -lg"
+alias la="l -a"
+alias lla="ll -a"
+alias vd="neovide; exit"
+alias sudo="sudo "
+alias reload="exec zsh"
+alias q="exit" 
+alias cls="clear"
+alias lf="lfrun"
+alias lg="lazygit"
+alias rm="rm -rf"
+alias gn="go run cmd/*.go"
+
+# Vim
+alias vim="nvim "
+alias vv="cd $HOME/.config/nvim; nvim ."
+
+# Dev
+alias addall="git add ."
+alias push="git push -u origin master"
+alias commit="git commit -m"
+alias lg="lazygit"
+alias compose="docker-compose"
+
+# Packages
+alias i="sudo pacman -S"
+alias d="sudo pacman -Rns"
+alias u="sudo pacman -Syyu"
+alias yi="yay -S"
+alias yd="yay -Rns"
+alias yu="yay -Syu"

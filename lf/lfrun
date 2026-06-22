@@ -1,0 +1,8 @@
+#!/bin/bash
+export FIFO_UEBERZUG="/tmp/lf-ueberzug-$$"
+mkfifo "$FIFO_UEBERZUG"
+trap "rm -f '$FIFO_UEBERZUG'" EXIT
+
+ueberzugpp layer --silent --output x11 < "$FIFO_UEBERZUG" &
+exec 3>"$FIFO_UEBERZUG"
+lf "$@"
